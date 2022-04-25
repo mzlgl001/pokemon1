@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+    <style type="text/css">
+        .item {
+            width: 150px;
+            height: 150px;
+            background-size:100% 100%;
+            background-repeat: no-repeat;
+            margin-top: 20px;
+            margin-left: 20px;
+        }
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            height: 200px;
+            width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .active{
+            border:2px solid green ;
+        }
+        .imgg{
+            position:absolute;
+            background-size:100% 100%;
+            width:1900px;
+            height:950px;
+        }
+    </style>
+</head>
+<body style="background-image:url('99.jpg');">
+    <button class="btn bb"> Начать игру</button>
+    <h2 class="hh">Очки <span class="score">0</span></h2>
+
+    <div class="row">
+    </div>
+    <script type="text/javascript">
+
+
+        let btn = document.querySelector(".btn");
+        btn.onclick = function(){
+            setTimeout(finish, 3000);
+
+              }
+        function finish(){
+            alert("конец");
+        }
+
+        function getRandom(num){
+            let rand = Math.random() * num; 
+            let round = Math.round(rand); 
+            return round;
+        }
+    //див-родитель
+    let row = document.querySelector(".row");
+
+    //хранение картинок
+    let images = ["1.png", "2.png", "3.png", "4.png", "5.png", "6.png", "1.png", "2.png", "3.png", "4.png", "5.png", "6.png"];
+    let past_div = null;
+    let score = 0;
+
+    
+
+
+
+        for (let i=0; i<12; i=i+1){
+        let elem = document.createElement('div');
+        row.appendChild(elem);
+        elem.classList.add('item');
+
+        let randomImg = getRandom(images.length-1);
+        elem.style.backgroundImage = 'url(' + images[randomImg] + ')';
+        elem.me = images[randomImg];
+
+
+        images.splice(randomImg, 1);
+
+        if(randomImg == 0) {
+             
+            elem.type = "norm";
+        }
+
+        elem.onclick = function() {
+            elem.classList.add('active');
+            
+            if (past_div == null) {
+                past_div = elem;
+
+            }
+
+            else if (past_div.me == elem.me) {
+                past_div.style.opacity = '0';
+                elem.style.opacity = '0'
+                past_div = null;
+                score = score + 1;
+                document.querySelector('.score').innerHTML = score;
+
+            }else if(past_div.me != elem.me){
+                elem.classList.remove('active');
+                past_div.classList.remove('active');
+                past_div = null;
+            }
+
+
+
+
+
+
+            if (score == 6) {
+                alert('win')
+            }
+
+            console.log(past_div)
+        }
+
+        
+
+        }
+        
+    
+
+    </script>
+</body>
+</html>
